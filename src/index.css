@@ -1,0 +1,200 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Railway Orange Theme */
+    --background: 210 25% 97%;
+    --foreground: 220 15% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
+
+    /* Railway Orange Primary */
+    --primary: 15 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 15 100% 70%;
+
+    /* Steel Blue Secondary */
+    --secondary: 210 25% 95%;
+    --secondary-foreground: 220 15% 20%;
+
+    --muted: 210 25% 92%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Railway Accent Colors */
+    --accent: 200 95% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 15 100% 60%;
+
+    --radius: 0.75rem;
+
+    /* Railway Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(15 100% 60%), hsl(15 100% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(200 95% 55%), hsl(210 95% 65%));
+    --gradient-steel: linear-gradient(135deg, hsl(220 15% 25%), hsl(220 15% 35%));
+    --gradient-hero: linear-gradient(135deg, hsl(15 100% 60%) 0%, hsl(200 95% 55%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 25% 98%) 100%);
+
+    /* Shadows */
+    --shadow-soft: 0 2px 8px hsl(220 15% 15% / 0.08);
+    --shadow-medium: 0 4px 12px hsl(220 15% 15% / 0.12);
+    --shadow-strong: 0 8px 32px hsl(220 15% 15% / 0.16);
+    --shadow-railway: 0 8px 32px hsl(15 100% 60% / 0.25);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Railway Specific Colors */
+    --rail-steel: 220 15% 25%;
+    --rail-orange: 15 100% 60%;
+    --rail-blue: 200 95% 55%;
+    --track-gray: 220 10% 40%;
+    --signal-green: 142 76% 36%;
+    --signal-red: 0 84% 60%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 15% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 15% 10%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 15% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 15 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 15 100% 70%;
+
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 200 95% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 15 100% 60%;
+
+    /* Dark mode gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(15 100% 60%) 0%, hsl(200 95% 55%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(220 15% 12%) 0%, hsl(220 15% 8%) 100%);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(15 100% 60% / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(200 95% 55% / 0.03) 0%, transparent 50%);
+  }
+
+  /* Railway themed animations */
+  @keyframes railway-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+  @keyframes train-move {
+    0% { transform: translateX(-100px); }
+    100% { transform: translateX(100vw); }
+  }
+
+  @keyframes track-shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+  }
+
+  .railway-pulse {
+    animation: railway-pulse 2s ease-in-out infinite;
+  }
+
+  .train-animation {
+    animation: train-move 15s linear infinite;
+  }
+
+  .track-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(15 100% 60% / 0.1),
+      transparent
+    );
+    background-size: 200px 100%;
+    animation: track-shimmer 2s ease-in-out infinite;
+  }
+
+  /* Glass morphism effects */
+  .glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    background-color: hsl(0 0% 100% / 0.75);
+    border: 1px solid hsl(0 0% 100% / 0.125);
+  }
+
+  .glass-dark {
+    backdrop-filter: blur(16px) saturate(180%);
+    background-color: hsl(220 15% 10% / 0.75);
+    border: 1px solid hsl(220 15% 20% / 0.25);
+  }
+}
