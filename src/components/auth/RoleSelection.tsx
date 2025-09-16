@@ -33,6 +33,7 @@ const roleIcons: Record<UserRole, React.ComponentType<any>> = {
 export const RoleSelection: React.FC<RoleSelectionProps> = ({ onRoleSelect }) => {
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null)
   const [loading, setLoading] = useState(false)
+  const [celebrate, setCelebrate] = useState(false)
   const { selectRole } = useRole()
 
   const handleRoleSelect = (role: UserRole) => {
@@ -49,12 +50,17 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ onRoleSelect }) =>
     
     try {
       selectRole(selectedRole)
+      setCelebrate(true)
       toast.success(`Welcome, ${dummyUsers[selectedRole].name}!`)
-      onRoleSelect?.()
+      // Small delay for animation before navigation
+      setTimeout(() => {
+        onRoleSelect?.()
+      }, 800)
     } catch (error) {
       toast.error('An unexpected error occurred')
     } finally {
       setLoading(false)
+      setTimeout(() => setCelebrate(false), 1200)
     }
   }
 
@@ -66,6 +72,19 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ onRoleSelect }) =>
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      {celebrate && (
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="mb-4 text-center"
+        >
+          <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs">
+            Starting demo experience...
+          </div>
+        </motion.div>
+      )}
+
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-center mb-2">Quick Access Demo</h2>
         <p className="text-muted-foreground text-center">

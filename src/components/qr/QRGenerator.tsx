@@ -18,7 +18,7 @@ interface PartData {
   mfgDate: string;
   lotNo: string;
   warrantyPeriod: string;
-  inspectionDue: string;
+  // inspectionDue: string;
 }
 
 export const QRGenerator = () => {
@@ -30,13 +30,14 @@ export const QRGenerator = () => {
     mfgDate: "",
     lotNo: "",
     warrantyPeriod: "24",
-    inspectionDue: "",
+    // inspectionDue: "",
   });
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const generateQRCode = async () => {
+    // Validation for required fields
     if (!partData.partType || !partData.serialNo || !partData.vendorId || !partData.mfgDate) {
       toast({
         title: "Missing Information",
@@ -45,26 +46,27 @@ export const QRGenerator = () => {
       });
       return;
     }
-
-    setIsGenerating(true);
-
+  
+    setIsGenerating(true); // Start loading state
+  
     try {
-      // Create QR data string (pipe-delimited format)
-      const qrData = `${partData.partType}|${partData.serialNo}|${partData.vendorId}|${partData.mfgDate}|${partData.lotNo}|${partData.warrantyPeriod}|${partData.inspectionDue}|HMAC_SIGNATURE`;
-      
-      // Generate QR code
+      // Construct QR data string (pipe-delimited format)
+      // Removed inspectionDue and used black color for QR
+      const qrData = `${partData.partType}|${partData.serialNo}|${partData.vendorId}|${partData.mfgDate}|${partData.lotNo}|${partData.warrantyPeriod}|HMAC_SIGNATURE`;
+  
+      // Generate QR code with black color
       const dataUrl = await QRCode.toDataURL(qrData, {
         width: 400,
         margin: 2,
         color: {
-          dark: "#FF6B35",
+          dark: "#000000", // Set to black
           light: "#FFFFFF",
         },
         errorCorrectionLevel: "H",
       });
-
-      setQrDataUrl(dataUrl);
-      
+  
+      setQrDataUrl(dataUrl); // Set QR image data
+  
       toast({
         title: "QR Code Generated",
         description: "QR code has been successfully created.",
@@ -76,44 +78,53 @@ export const QRGenerator = () => {
         variant: "destructive",
       });
     } finally {
-      setIsGenerating(false);
+      setIsGenerating(false); // End loading state
     }
   };
+  
 
-  const generateSerialNumber = () => {
-    const timestamp = Date.now().toString().slice(-8);
-    const random = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
-    setPartData(prev => ({
-      ...prev,
-      serialNo: `${partData.partType?.slice(0, 3).toUpperCase() || "PRT"}${timestamp}${random}`,
-    }));
-  };
+// Generates a serial number based on part type and timestamp
+const generateSerialNumber = () => {
+  const timestamp = Date.now().toString().slice(-8);
+  const random = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
+  setPartData(prev => ({
+    ...prev,
+    serialNo: `${partData.partType?.slice(0, 3).toUpperCase() || "PRT"}${timestamp}${random}`,
+  }));
+};
 
   const copyQRData = () => {
-    const qrData = `${partData.partType}|${partData.serialNo}|${partData.vendorId}|${partData.mfgDate}|${partData.lotNo}|${partData.warrantyPeriod}|${partData.inspectionDue}|HMAC_SIGNATURE`;
+    // QR string (without inspectionDue)
+    const qrData = `${partData.partType}|${partData.serialNo}|${partData.vendorId}|${partData.mfgDate}|${partData.lotNo}|${partData.warrantyPeriod}|HMAC_SIGNATURE`;
+  
     navigator.clipboard.writeText(qrData);
     setIsCopied(true);
+  
+    // Reset copied state after 2 seconds
     setTimeout(() => setIsCopied(false), 2000);
-    
+  
     toast({
       title: "Copied!",
       description: "QR data copied to clipboard.",
     });
   };
+  
 
-  const downloadQR = () => {
-    if (!qrDataUrl) return;
-    
-    const link = document.createElement("a");
-    link.download = `QR_${partData.partType}_${partData.serialNo}.png`;
-    link.href = qrDataUrl;
-    link.click();
+// Triggers download of the generated QR code image
+const downloadQR = () => {
+  if (!qrDataUrl) return;
 
-    toast({
-      title: "Downloaded",
-      description: "QR code image has been downloaded.",
-    });
-  };
+  const link = document.createElement("a");
+  link.download = `QR_${partData.partType}_${partData.serialNo}.png`;
+  link.href = qrDataUrl;
+  link.click();
+
+  toast({
+    title: "Downloaded",
+    description: "QR code image has been downloaded.",
+  });
+};
+
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -238,7 +249,7 @@ export const QRGenerator = () => {
             </div>
 
             {/* Inspection Due */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="inspectionDue">Next Inspection Due</Label>
               <Input
                 id="inspectionDue"
@@ -246,7 +257,7 @@ export const QRGenerator = () => {
                 value={partData.inspectionDue}
                 onChange={(e) => setPartData(prev => ({ ...prev, inspectionDue: e.target.value }))}
               />
-            </div>
+            </div> */}
 
             <Button 
               onClick={generateQRCode} 

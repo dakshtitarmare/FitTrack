@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 import { Eye, EyeOff, Mail, Lock, User, UserPlus } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 interface SignupFormProps {
   onSwitchToLogin: () => void
@@ -143,6 +144,31 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, onSignu
               {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45 }}
+          className="space-y-2"
+        >
+          <Label htmlFor="role" className="text-sm font-medium">
+            Choose Role (Demo)
+          </Label>
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="key_man">Key Man/Mate</SelectItem>
+              <SelectItem value="je_se">JE/SE</SelectItem>
+              <SelectItem value="sse_pwi">SSE/PWI</SelectItem>
+              <SelectItem value="tms_operator">TMS Operator</SelectItem>
+              <SelectItem value="udm_manager">UDM Manager</SelectItem>
+              <SelectItem value="vendor">Vendor/Contractor</SelectItem>
+              <SelectItem value="admin">Admin</SelectItem>
+            </SelectContent>
+          </Select>
         </motion.div>
 
         <motion.div

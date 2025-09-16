@@ -123,7 +123,7 @@ export const AuthPage = () => {
             <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
               RailTrack AI
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-white text-lg drop-shadow">
               Railway Track Fitting Management System
             </p>
           </motion.div>
@@ -136,8 +136,8 @@ export const AuthPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className="glass rounded-2xl p-8 shadow-strong border backdrop-blur-md">
-                <div className="text-center mb-6">
+              <div className="glass rounded-2xl p-8 shadow-strong border backdrop-blur-md h-full max-h-[70vh] overflow-auto">
+                <div className="text-center mb-6 sticky top-0 bg-transparent">
                   <h2 className="text-2xl font-bold mb-2">Sign In</h2>
                   <p className="text-muted-foreground">Access your account</p>
                 </div>
@@ -193,7 +193,7 @@ export const AuthPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <div className="glass rounded-2xl p-8 shadow-strong border backdrop-blur-md">
+              <div className="glass rounded-2xl p-8 shadow-strong border backdrop-blur-md h-full max-h-[70vh] overflow-auto">
                 <div className="text-center mb-6">
                   <div className="flex items-center justify-center mb-4">
                     <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-3 rounded-xl">

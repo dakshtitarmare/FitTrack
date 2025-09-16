@@ -6,6 +6,7 @@ import { AnalyticsChart } from "@/components/dashboard/AnalyticsChart";
 import { QRGenerator } from "@/components/qr/QRGenerator";
 import { PartsTable } from "@/components/parts/PartsTable";
 import { VendorAnalytics } from "@/components/vendor/VendorAnalytics";
+import { SeniorInsights } from "@/components/dashboard/SeniorInsights";
 import { RoleBasedAccess, CanViewAnalytics, CanManageVendors, CanGenerateQR, CanIntegrateTMS } from "@/components/common/RoleBasedAccess";
 import { Activity, TrendingUp, AlertCircle, Package, Train, LogOut, Shield, Users, BarChart3, QrCode, Cog } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,7 +57,7 @@ export const Dashboard = () => {
     <MainLayout>
       <div className="space-y-8">
         {/* Hero Section with Railway Image */}
-        <motion.div
+        <motion.div id="hero"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative overflow-hidden rounded-2xl"
@@ -116,10 +117,12 @@ export const Dashboard = () => {
         </motion.div>
 
         {/* KPI Cards */}
-        <KPICards />
+        <div id="kpis">
+          <KPICards />
+        </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8" id="analytics">
           {/* Analytics Charts */}
           <CanViewAnalytics>
             <div className="xl:col-span-2">
@@ -132,6 +135,7 @@ export const Dashboard = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
+            id="activities"
           >
             <Card className="bg-gradient-card border-0 shadow-soft h-fit">
               <CardHeader className="pb-4">
@@ -181,6 +185,7 @@ export const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
+            id="vendors"
           >
             <div className="mb-6">
               <h2 className="text-2xl font-semibold mb-2">Vendor Performance Analytics</h2>
@@ -197,6 +202,7 @@ export const Dashboard = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
+          id="parts"
         >
           <div className="mb-6">
             <h2 className="text-2xl font-semibold mb-2">Parts Management System</h2>
@@ -213,6 +219,7 @@ export const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
+            id="qr"
           >
             <div className="mb-6">
               <h2 className="text-2xl font-semibold mb-2">QR Code Generator</h2>
@@ -230,6 +237,7 @@ export const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
+            id="tms"
           >
             <div className="mb-6">
               <h2 className="text-2xl font-semibold mb-2">TMS Integration & Data Sync</h2>
@@ -286,6 +294,17 @@ export const Dashboard = () => {
             </Card>
           </motion.div>
         </CanIntegrateTMS>
+
+        {/* Senior Insights (senior roles) */}
+        <RoleBasedAccess permission="canViewAnalytics" roles={["sse_pwi","udm_manager","admin"]}>
+          <div id="senior-insights">
+            <div className="mb-6">
+              <h2 className="text-2xl font-semibold mb-2">Senior Insights</h2>
+              <p className="text-muted-foreground">High-level analytics across vendors, zones, and time</p>
+            </div>
+            <SeniorInsights />
+          </div>
+        </RoleBasedAccess>
       </div>
     </MainLayout>
   );

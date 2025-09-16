@@ -38,6 +38,22 @@ const iconMap = {
   Calendar,
 };
 
+// Name to section id mapping
+const sectionIdMap: Record<string, string> = {
+  "Dashboard": "hero",
+  "Analytics": "analytics",
+  "Vendors": "vendors",
+  "Parts Management": "parts",
+  "QR Generator": "qr",
+  "Inspections": "activities",
+  "Inventory": "inventory",
+  "Maintenance": "maintenance",
+  "Safety": "safety",
+  "Reports": "reports",
+  "Alerts": "alerts",
+  "Schedule": "schedule",
+};
+
 interface SidebarProps {
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
@@ -52,6 +68,17 @@ export const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
     current: item.name === "Dashboard"
   })) : [];
   const [activeItem, setActiveItem] = useState("Dashboard");
+
+  const onNavigate = (name: string) => {
+    const id = sectionIdMap[name];
+    if (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    setActiveItem(name);
+  };
 
   return (
     <motion.div
@@ -104,7 +131,7 @@ export const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
           return (
             <motion.button
               key={item.name}
-              onClick={() => setActiveItem(item.name)}
+              onClick={() => onNavigate(item.name)}
               whileHover={{ x: 4 }}
               whileTap={{ scale: 0.98 }}
               className={cn(
