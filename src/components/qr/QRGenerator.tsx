@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import axios from "axios"; // Make sure axios is imported
 
 interface PartData {
   partType: string;
@@ -37,7 +38,6 @@ export const QRGenerator = () => {
   const [isCopied, setIsCopied] = useState(false);
 
   const generateQRCode = async () => {
-    // Validation for required fields
     if (!partData.partType || !partData.serialNo || !partData.vendorId || !partData.mfgDate) {
       toast({
         title: "Missing Information",
@@ -47,41 +47,65 @@ export const QRGenerator = () => {
       return;
     }
   
-    setIsGenerating(true); // Start loading state
+    setIsGenerating(true);
   
     try {
-      // Construct QR data string (pipe-delimited format)
-      // Removed inspectionDue and used black color for QR
-      const qrData = `${partData.partType}|${partData.serialNo}|${partData.vendorId}|${partData.mfgDate}|${partData.lotNo}|${partData.warrantyPeriod}|HMAC_SIGNATURE`;
+      // Step 1: Call the backend API
+      console.log('call api');
+      const response = await axios.post(
+        "https://fittrack-backend-ix2u.onrender.com/api/save_qr_data",
+        {
+          partType: partData.partType,
+          serialNo: partData.serialNo,
+          vendorId: partData.vendorId,
+          mfgDate: partData.mfgDate,
+          lotNo: partData.lotNo,
+          warrantyPeriod: partData.warrantyPeriod,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      
+      console.log('call api done',response);
+
+      const uid = response.data.uid;
+
+      console.log('got response',uid);
+
+      if (!uid) throw new Error("UID not returned from backend");
   
-      // Generate QR code with black color
-      const dataUrl = await QRCode.toDataURL(qrData, {
+      // Step 2: Create QR code pointing to showdata/UID
+      const qrUrl = `https://fittrack-backend-ix2u.onrender.com/showdata/${uid}`; // Update this to your actual hosted domain (Render or localhost)  
+      const dataUrl = await QRCode.toDataURL(qrUrl, {
         width: 400,
         margin: 2,
         color: {
-          dark: "#000000", // Set to black
+          dark: "#000000",
           light: "#FFFFFF",
         },
         errorCorrectionLevel: "H",
       });
   
-      setQrDataUrl(dataUrl); // Set QR image data
+      setQrDataUrl(dataUrl);
   
       toast({
         title: "QR Code Generated",
-        description: "QR code has been successfully created.",
+        description: "QR code has been successfully created and stored.",
       });
     } catch (error) {
+      console.error("Error generating QR code:", error);
       toast({
-        title: "Generation Failed",
-        description: "Failed to generate QR code. Please try again.",
+        title: "Error",
+        description: "Something went wrong while generating QR.",
         variant: "destructive",
       });
     } finally {
-      setIsGenerating(false); // End loading state
+      setIsGenerating(false);
     }
   };
-  
 
 // Generates a serial number based on part type and timestamp
 const generateSerialNumber = () => {

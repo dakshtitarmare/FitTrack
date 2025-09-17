@@ -24,7 +24,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
             <Train className="w-16 h-16 text-white animate-pulse" />
           </div>
           <h2 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
-            RailTrack AI
+            FitTrack
           </h2>
           <p className="text-muted-foreground mb-4">Loading your dashboard...</p>
           

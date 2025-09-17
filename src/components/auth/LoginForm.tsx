@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-// import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
+import { useToast } from "@/hooks/use-toast";
+
 import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react'
-import { Route, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface LoginFormProps {
   onSwitchToSignup: () => void
@@ -16,12 +17,24 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  // const { signIn } = useAuth()
-  const navigate = useNavigate();
-  const handleSubmit = async (e: React.FormEvent) => {
+  const navigate = useNavigate()
+  const { toast } = useToast();
+
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    toast.info('Authentication is disabled in demo mode. Use Quick Access Demo instead.')
+
+    // Simulated demo login
+    toast({
+      title: "Sign In Sucess",
+      description: "This authentication just for Stimulation use Quick Demo",
+      
+    });
+
+    // Redirect after a short delay (optional)
+    setTimeout(() => {
+      navigate('/home')
+    }, 1000)
   }
 
   return (
@@ -98,8 +111,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup }) => {
         >
           <Button
             type="submit"
-            className="w-full bg-muted text-muted-foreground cursor-not-allowed"
-            disabled={true}
+            className="w-full bg-primary text-white hover:bg-primary/90 transition-colors"
           >
             <div className="flex items-center space-x-2">
               <LogIn className="w-4 h-4" />

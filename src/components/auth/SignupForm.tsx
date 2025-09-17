@@ -35,7 +35,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, onSignu
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-center mb-2">Create Account</h2>
         <p className="text-muted-foreground text-center">
-          Join the RailTrack AI system for better railway management
+          Join the FitTrack for better railway management
         </p>
       </div>
 

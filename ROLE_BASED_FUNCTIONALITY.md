@@ -1,7 +1,7 @@
 # Role-Based Functionality Breakdown
 
 ## Overview
-The RailTrack AI system now implements comprehensive role-based access control aligned with the web-based railway management hierarchy. Each role has specific permissions and access to different features based on their responsibilities.
+The FitTrack now implements comprehensive role-based access control aligned with the web-based railway management hierarchy. Each role has specific permissions and access to different features based on their responsibilities.
 
 ## Web-Based Roles & Their Functionality
 
@@ -269,4 +269,4 @@ The RailTrack AI system now implements comprehensive role-based access control a
 - Visual indicators show current role and permissions
 - Easy role switching for demonstration purposes
 
-This implementation provides a comprehensive, realistic demonstration of how different railway personnel would interact with the RailTrack AI system based on their roles and responsibilities.
+This implementation provides a comprehensive, realistic demonstration of how different railway personnel would interact with the FitTrack based on their roles and responsibilities.

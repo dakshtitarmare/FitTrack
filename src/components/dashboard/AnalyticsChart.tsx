@@ -22,20 +22,20 @@ import { TrendingUp, Activity, AlertTriangle, Package } from "lucide-react";
 
 // Sample data for different charts
 const qualityTrendData = [
-  { month: "Jan", quality: 96.2, inspections: 12500, failures: 234 },
-  { month: "Feb", quality: 97.1, inspections: 13200, failures: 198 },
-  { month: "Mar", quality: 98.3, inspections: 14100, failures: 167 },
-  { month: "Apr", quality: 97.8, inspections: 13800, failures: 189 },
-  { month: "May", quality: 98.7, inspections: 15200, failures: 145 },
+  { month: "Jan", quality: 66.2, inspections: 12500, failures: 234 },
+  { month: "Feb", quality: 77.1, inspections: 13200, failures: 198 },
+  { month: "Mar", quality: 88.3, inspections: 14100, failures: 167 },
+  { month: "Apr", quality: 92.8, inspections: 13800, failures: 189 },
+  { month: "May", quality: 96.7, inspections: 15200, failures: 145 },
   { month: "Jun", quality: 99.1, inspections: 16100, failures: 123 },
 ];
 
 const vendorPerformanceData = [
-  { vendor: "Bharat Heavy", score: 98.5, parts: 245000, color: "#FF6B35" },
-  { vendor: "Tata Steel", score: 97.2, parts: 198000, color: "#4ECDC4" },
-  { vendor: "JSW Group", score: 96.8, parts: 167000, color: "#45B7D1" },
-  { vendor: "Jindal Steel", score: 95.9, parts: 134000, color: "#96CEB4" },
-  { vendor: "SAIL", score: 94.7, parts: 123000, color: "#FECA57" },
+  { vendor: "Bharat Heavy", score: 92.3, parts: 245000, color: "#FF6B35" },
+  { vendor: "Tata Steel", score: 89.7, parts: 198000, color: "#4ECDC4" },
+  { vendor: "JSW Group", score: 87.5, parts: 167000, color: "#45B7D1" },
+  { vendor: "Jindal Steel", score: 85.2, parts: 134000, color: "#96CEB4" },
+  { vendor: "SAIL", score: 83.9, parts: 123000, color: "#FECA57" },
 ];
 
 const partTypeDistribution = [

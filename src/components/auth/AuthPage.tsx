@@ -5,6 +5,8 @@ import { LoginForm } from './LoginForm'
 import { SignupForm } from './SignupForm'
 import { RoleSelection } from './RoleSelection'
 import { Train, Zap, Shield, ArrowRight } from 'lucide-react'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import railwayHero from '@/assets/railway-hero.jpg'
 
 type AuthStep = 'login' | 'signup' | 'role-selection'
@@ -27,8 +29,23 @@ export const AuthPage = () => {
     navigate('/home')
   }
 
+  const handleDemoLogin = () => {
+    toast.info('This is just a Demo. Use the Quick Login Tab.', {
+      position: 'bottom-right',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: 'colored',
+    })
+  }
+
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-background to-muted/20">
+      {/* Toast Container */}
+      <ToastContainer />
+
       {/* Animated Background */}
       <motion.div
         initial={{ scale: 1.1, opacity: 0 }}
@@ -121,10 +138,10 @@ export const AuthPage = () => {
               </div>
             </div>
             <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
-              RailTrack AI
+              FitTrack
             </h1>
             <p className="text-white text-lg drop-shadow">
-              Railway Track Fitting Management System
+              Railway Track Fitting Management System (RTMS) 
             </p>
           </motion.div>
 
@@ -138,8 +155,8 @@ export const AuthPage = () => {
             >
               <div className="glass rounded-2xl p-8 shadow-strong border backdrop-blur-md h-full max-h-[70vh] overflow-auto">
                 <div className="text-center mb-6 sticky top-0 bg-transparent">
-                  <h2 className="text-2xl font-bold mb-2">Sign In</h2>
-                  <p className="text-muted-foreground">Access your account</p>
+                  {/* <h2 className="text-2xl font-bold mb-2">Sign In</h2>
+                  <p className="text-muted-foreground">Access your account</p> */}
                 </div>
                 
                 <AnimatePresence mode="wait">
@@ -151,7 +168,10 @@ export const AuthPage = () => {
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <LoginForm onSwitchToSignup={() => setCurrentStep('signup')} />
+                      <LoginForm 
+                        onSwitchToSignup={() => setCurrentStep('signup')} 
+                        //onLogin={handleDemoLogin} 
+                      />
                     </motion.div>
                   )}
                   
@@ -217,7 +237,7 @@ export const AuthPage = () => {
             transition={{ delay: 1 }}
           >
             <p>© 2024 Indian Railways. All rights reserved.</p>
-            <p className="mt-1">Secured by RailTrack AI Technology</p>
+            <p className="mt-1">Secured by FitTrack Technology</p>
           </motion.div>
         </motion.div>
       </div>

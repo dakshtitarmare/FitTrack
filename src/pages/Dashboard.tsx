@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { roleLabels } from "@/contexts/RoleContext";
 import railwayHero from "@/assets/railway-hero.jpg";
+import { useNavigate } from "react-router-dom";
 
 const recentActivities = [
   {
@@ -43,11 +44,14 @@ const recentActivities = [
 ];
 
 export const Dashboard = () => {
-  const { selectedRole, currentUser } = useRole();
+  const { selectedRole, currentUser,clearRole } = useRole();
+  const navigate = useNavigate()
 
   const handleSignOut = async () => {
     try {
       // await signOut();
+      clearRole();
+      navigate('/')    
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -73,9 +77,9 @@ export const Dashboard = () => {
           >
             <div className="text-white">
               <h1 className="text-4xl font-bold tracking-tight mb-4">
-                RailTrack AI System
+                FitTrack
               </h1>
-              <p className="text-xl opacity-90 mb-2">
+              <p className="text-xl opacity-05 mb-2">
                 AI-powered QR code marking and tracking system for Indian Railways
               </p>
               <p className="text-lg opacity-80 mb-4">
