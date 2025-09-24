@@ -7,7 +7,9 @@ import { QRGenerator } from "@/components/qr/QRGenerator";
 import { PartsTable } from "@/components/parts/PartsTable";
 import { VendorAnalytics } from "@/components/vendor/VendorAnalytics";
 import { SeniorInsights } from "@/components/dashboard/SeniorInsights";
-import { RoleBasedAccess, CanViewAnalytics, CanManageVendors, CanGenerateQR, CanIntegrateTMS } from "@/components/common/RoleBasedAccess";
+import { DepotSupervisorDashboard } from "@/components/dashboard/DepotSupervisorDashboard";
+import { DeliveryReportSubmission } from "@/components/vendor/DeliveryReportSubmission";
+import { RoleBasedAccess, CanViewAnalytics, CanManageVendors, CanGenerateQR, CanIntegrateTMS, CanSubmitDeliveryReport } from "@/components/common/RoleBasedAccess";
 import { Activity, TrendingUp, AlertCircle, Package, Train, LogOut, Shield, Users, BarChart3, QrCode, Cog } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -119,6 +121,19 @@ export const Dashboard = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Depot Supervisor Dashboard */}
+        <RoleBasedAccess permission="canGenerateQR" roles={["depot_supervisor"]}>
+          <div id="depot-dashboard">
+            <div className="mb-6">
+              <h2 className="text-2xl font-semibold mb-2">Depot Supervisor Dashboard</h2>
+              <p className="text-muted-foreground">
+                QR generation statistics, inventory management, and daily operations tracking
+              </p>
+            </div>
+            <DepotSupervisorDashboard />
+          </div>
+        </RoleBasedAccess>
 
         {/* KPI Cards */}
         <div id="kpis">
@@ -234,6 +249,24 @@ export const Dashboard = () => {
             <QRGenerator />
           </motion.div>
         </CanGenerateQR>
+
+        {/* Delivery Report Submission Section */}
+        <CanSubmitDeliveryReport>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            id="delivery-reports"
+          >
+            <div className="mb-6">
+              <h2 className="text-2xl font-semibold mb-2">Delivery Report Submission</h2>
+              <p className="text-muted-foreground">
+                Submit delivery reports for railway fitting parts and track completion
+              </p>
+            </div>
+            <DeliveryReportSubmission />
+          </motion.div>
+        </CanSubmitDeliveryReport>
 
         {/* TMS Integration Section */}
         <CanIntegrateTMS>

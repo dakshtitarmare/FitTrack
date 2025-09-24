@@ -160,7 +160,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, onSignu
               <SelectValue placeholder="Select a role" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="key_man">Key Man/Mate</SelectItem>
+              <SelectItem value="depot_supervisor">Depot Supervisor</SelectItem>
               <SelectItem value="je_se">JE/SE</SelectItem>
               <SelectItem value="sse_pwi">SSE/PWI</SelectItem>
               <SelectItem value="tms_operator">TMS Operator</SelectItem>

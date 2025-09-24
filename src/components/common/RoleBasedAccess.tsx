@@ -71,3 +71,9 @@ export const CanIntegrateTMS: React.FC<{ children: React.ReactNode; fallback?: R
     {children}
   </RoleBasedAccess>
 )
+
+export const CanSubmitDeliveryReport: React.FC<{ children: React.ReactNode; fallback?: React.ReactNode }> = ({ children, fallback }) => (
+  <RoleBasedAccess permission="canSubmitDeliveryReport" fallback={fallback}>
+    {children}
+  </RoleBasedAccess>
+)

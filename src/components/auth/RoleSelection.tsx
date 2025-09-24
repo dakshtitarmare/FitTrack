@@ -21,7 +21,7 @@ interface RoleSelectionProps {
 }
 
 const roleIcons: Record<UserRole, React.ComponentType<any>> = {
-  key_man: HardHat,
+  depot_supervisor: HardHat,
   je_se: Wrench,
   sse_pwi: Shield,
   tms_operator: Computer,
@@ -64,7 +64,7 @@ export const RoleSelection: React.FC<RoleSelectionProps> = ({ onRoleSelect }) =>
     }
   }
 
-  const roles: UserRole[] = ['key_man', 'je_se', 'sse_pwi', 'tms_operator', 'udm_manager', 'vendor', 'admin']
+  const roles: UserRole[] = ['depot_supervisor', 'je_se', 'sse_pwi', 'tms_operator', 'udm_manager', 'vendor', 'admin']
 
   return (
     <motion.div

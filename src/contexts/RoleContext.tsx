@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 export type UserRole = 
-  | 'key_man' 
+  | 'depot_supervisor' 
   | 'je_se' 
   | 'sse_pwi' 
   | 'tms_operator' 
@@ -10,7 +10,7 @@ export type UserRole =
   | 'admin'
 
 export const roleLabels: Record<UserRole, string> = {
-  key_man: 'Key Man/Mate',
+  depot_supervisor: 'Depot Supervisor',
   je_se: 'JE/SE (Junior/Section Engineer)',
   sse_pwi: 'SSE/PWI (Senior Section Engineer/Permanent Way Inspector)',
   tms_operator: 'TMS Operator',
@@ -20,17 +20,17 @@ export const roleLabels: Record<UserRole, string> = {
 }
 
 export const roleDescriptions: Record<UserRole, string> = {
-  key_man: 'Supervise trackmen, verify QR scan entries, approve/reject work, escalate issues to higher authority',
+  depot_supervisor: 'Generate QR codes for deliveries, manage inventory, track daily statistics, supervise depot operations',
   je_se: 'Manage inspection schedules, cross-check task completion, analyze field data, communicate with vendors',
   sse_pwi: 'Monitor safety compliance, approve escalated issues, plan preventive maintenance, high-level approvals',
   tms_operator: 'Integrate field data into TMS, sync QR scan info with official records, generate MIS reports',
   udm_manager: 'High-level monitoring, vendor contract approval, policy decisions, comprehensive analytics access',
-  vendor: 'Generate QR codes for parts, upload delivery proofs, track payment status, manage own inventory',
+  vendor: 'Submit delivery reports, upload delivery proofs, track payment status, manage own inventory',
   admin: 'Manage all users & roles, system configuration, cybersecurity compliance, full audit trail access'
 }
 
 export const dummyUsers: Record<UserRole, { name: string; email: string }> = {
-  key_man: { name: 'Rajesh Kumar', email: 'rajesh.kumar@railway.demo' },
+  depot_supervisor: { name: 'Rajesh Kumar', email: 'rajesh.kumar@railway.demo' },
   je_se: { name: 'Priya Sharma', email: 'priya.sharma@railway.demo' },
   sse_pwi: { name: 'Amit Singh', email: 'amit.singh@railway.demo' },
   tms_operator: { name: 'Sneha Patel', email: 'sneha.patel@railway.demo' },

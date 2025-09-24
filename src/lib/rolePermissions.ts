@@ -57,41 +57,44 @@ export interface RolePermissions {
   canIntegrateTMS: boolean
   canSyncData: boolean
   canValidateInstallation: boolean
+  
+  // Delivery Reports
+  canSubmitDeliveryReport: boolean
 }
 
 // Role-based permissions mapping
 export const rolePermissions: Record<UserRole, RolePermissions> = {
-  // Key Man/Mate - Immediate Supervisor of Trackmen
-  key_man: {
+  // Depot Supervisor - Generate QR codes, manage inventory, track statistics
+  depot_supervisor: {
     canViewDashboard: true,
-    canViewAnalytics: false,
+    canViewAnalytics: true,
     canViewKPIs: true,
     canViewParts: true,
-    canEditParts: false,
-    canAddParts: false,
+    canEditParts: true,
+    canAddParts: true,
     canDeleteParts: false,
-    canGenerateQR: false,
+    canGenerateQR: true,
     canViewQR: true,
-    canEditQR: false,
-    canViewVendors: false,
+    canEditQR: true,
+    canViewVendors: true,
     canManageVendors: false,
     canApproveVendors: false,
-    canViewVendorAnalytics: false,
+    canViewVendorAnalytics: true,
     canViewInspections: true,
     canScheduleInspections: false,
-    canApproveInspections: true, // Can approve/reject trackmen work
+    canApproveInspections: true,
     canViewMaintenance: true,
     canScheduleMaintenance: false,
     canViewReports: true,
-    canGenerateReports: false,
-    canExportData: false,
+    canGenerateReports: true,
+    canExportData: true,
     canViewMIS: false,
     canViewSafety: true,
     canManageSafety: false,
     canViewAlerts: true,
     canManageAlerts: false,
     canViewInventory: true,
-    canManageInventory: false,
+    canManageInventory: true,
     canTrackInventory: true,
     canManageUsers: false,
     canViewAuditLogs: false,
@@ -99,6 +102,7 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canIntegrateTMS: false,
     canSyncData: false,
     canValidateInstallation: false,
+    canSubmitDeliveryReport: false,
   },
 
   // JE/SE - Junior/Section Engineer
@@ -139,6 +143,7 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canIntegrateTMS: false,
     canSyncData: false,
     canValidateInstallation: false,
+    canSubmitDeliveryReport: false,
   },
 
   // SSE/PWI - Senior Section Engineer/Permanent Way Inspector
@@ -179,6 +184,7 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canIntegrateTMS: false,
     canSyncData: false,
     canValidateInstallation: false,
+    canSubmitDeliveryReport: false,
   },
 
   // TMS Operator
@@ -219,6 +225,7 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canIntegrateTMS: true,
     canSyncData: true,
     canValidateInstallation: true,
+    canSubmitDeliveryReport: false,
   },
 
   // UDM/Division Manager
@@ -259,6 +266,7 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canIntegrateTMS: true,
     canSyncData: true,
     canValidateInstallation: true,
+    canSubmitDeliveryReport: false,
   },
 
   // Vendor/Contractor
@@ -270,7 +278,7 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canEditParts: false,
     canAddParts: true, // Can add their own parts
     canDeleteParts: false,
-    canGenerateQR: true, // Can generate QR for their parts
+    canGenerateQR: false, // Removed QR generation
     canViewQR: true,
     canEditQR: false,
     canViewVendors: false,
@@ -299,6 +307,8 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canIntegrateTMS: false,
     canSyncData: false,
     canValidateInstallation: false,
+    // New permission for delivery report submission
+    canSubmitDeliveryReport: true,
   },
 
   // Admin - System Administrator
@@ -339,6 +349,7 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canIntegrateTMS: true,
     canSyncData: true,
     canValidateInstallation: true,
+    canSubmitDeliveryReport: false,
   },
 }
 
@@ -358,8 +369,10 @@ export const getNavigationItems = (role: UserRole) => {
   
   const allItems = [
     { name: "Dashboard", href: "#", icon: "Home", permission: "canViewDashboard" },
+    { name: "Depot Dashboard", href: "#", icon: "Package", permission: "canGenerateQR" },
     { name: "Parts Management", href: "#", icon: "Package", permission: "canViewParts" },
     { name: "QR Generator", href: "#", icon: "QrCode", permission: "canGenerateQR" },
+    { name: "Delivery Reports", href: "#", icon: "Truck", permission: "canSubmitDeliveryReport" },
     { name: "Inspections", href: "#", icon: "Search", permission: "canViewInspections" },
     { name: "Analytics", href: "#", icon: "BarChart3", permission: "canViewAnalytics" },
     { name: "Vendors", href: "#", icon: "Users", permission: "canViewVendors" },
@@ -369,6 +382,7 @@ export const getNavigationItems = (role: UserRole) => {
     { name: "Reports", href: "#", icon: "Activity", permission: "canViewReports" },
     { name: "Alerts", href: "#", icon: "AlertTriangle", permission: "canViewAlerts" },
     { name: "Schedule", href: "#", icon: "Calendar", permission: "canScheduleInspections" },
+    { name: "TMS Integration", href: "#", icon: "Train", permission: "canIntegrateTMS" },
   ]
 
   return allItems.filter(item => permissions[item.permission as keyof RolePermissions])

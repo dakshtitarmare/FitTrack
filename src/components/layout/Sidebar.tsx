@@ -41,10 +41,12 @@ const iconMap = {
 // Name to section id mapping
 const sectionIdMap: Record<string, string> = {
   "Dashboard": "hero",
+  "Depot Dashboard": "depot-dashboard",
   "Analytics": "analytics",
   "Vendors": "vendors",
   "Parts Management": "parts",
   "QR Generator": "qr",
+  "Delivery Reports": "delivery-reports",
   "Inspections": "activities",
   "Inventory": "inventory",
   "Maintenance": "maintenance",
@@ -52,6 +54,7 @@ const sectionIdMap: Record<string, string> = {
   "Reports": "reports",
   "Alerts": "alerts",
   "Schedule": "schedule",
+  "TMS Integration": "tms",
 };
 
 interface SidebarProps {
@@ -132,10 +135,18 @@ export const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             <motion.button
               key={item.name}
               onClick={() => onNavigate(item.name)}
-              whileHover={{ x: 4 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ 
+                x: 4,
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                transition: { duration: 0.2 }
+              }}
+              whileTap={{ scale: 0.95 }}
+              animate={isActive ? {
+                backgroundColor: "rgba(255, 107, 53, 0.9)",
+                boxShadow: "0 4px 12px rgba(255, 107, 53, 0.3)"
+              } : {}}
               className={cn(
-                "w-full flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200",
+                "w-full flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-300",
                 isActive
                   ? "bg-gradient-primary text-white shadow-railway"
                   : "text-white/80 hover:bg-white/10 hover:text-white"
