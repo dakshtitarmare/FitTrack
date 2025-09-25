@@ -2,38 +2,77 @@ import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { BarChart3, PieChart as PieIcon, Map, LineChart as LineIcon } from 'lucide-react'
+import {
+  LineChart,
+  Line,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts'
+
+const vendorQualityData = [
+  { month: 'Jan', Bharat: 93, Tata: 90, JSW: 88, SAIL: 85 },
+  { month: 'Feb', Bharat: 94, Tata: 91, JSW: 87, SAIL: 86 },
+  { month: 'Mar', Bharat: 95, Tata: 92, JSW: 89, SAIL: 86 },
+  { month: 'Apr', Bharat: 94, Tata: 93, JSW: 90, SAIL: 87 },
+  { month: 'May', Bharat: 96, Tata: 93, JSW: 91, SAIL: 88 },
+  { month: 'Jun', Bharat: 97, Tata: 94, JSW: 92, SAIL: 89 },
+]
+
+const zoneDefectsData = [
+  { zone: 'North', defects: 67 },
+  { zone: 'South', defects: 23 },
+  { zone: 'West', defects: 56 },
+  { zone: 'East', defects: 34 },
+  { zone: 'Central', defects: 45 },
+]
+
+const partMixData = [
+  { name: 'ERC', value: 42, color: '#FF6B35' },
+  { name: 'Rail Pad', value: 28, color: '#4ECDC4' },
+  { name: 'Liner', value: 18, color: '#45B7D1' },
+  { name: 'Sleeper', value: 12, color: '#96CEB4' },
+]
 
 export const SeniorInsights = () => {
   return (
     <div className="space-y-6">
-      {/* Vendor-wise Defect Rate */}
+      {/* Vendor Quality Trend (Line + Area) */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <Card className="bg-gradient-card border-0 shadow-soft">
           <CardHeader>
-            <CardTitle className="text-xl">Vendor-wise Defect Rate</CardTitle>
-            <CardDescription>Top vendors by defect ratio over last 90 days</CardDescription>
+            <CardTitle className="text-xl">Vendor Quality Trend</CardTitle>
+            <CardDescription>Monthly quality scores by vendor</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-40 grid grid-cols-5 gap-3">
-              {[
-                { name: 'BHEL', value: 1.2 },
-                { name: 'Tata', value: 1.8 },
-                { name: 'JSW', value: 2.1 },
-                { name: 'Jindal', value: 2.8 },
-                { name: 'SAIL', value: 2.3 },
-              ].map((v) => (
-                <div key={v.name} className="flex flex-col items-center justify-end">
-                  <div className="w-8 bg-destructive/20 rounded-t-sm" style={{ height: `${v.value * 20}px` }} />
-                  <div className="text-xs mt-1">{v.name}</div>
-                  <div className="text-[10px] text-muted-foreground">{v.value}%</div>
-                </div>
-              ))}
-            </div>
+            <ResponsiveContainer width="100%" height={320}>
+              <LineChart data={vendorQualityData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <YAxis domain={[80, 100]} stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 'var(--radius)' }} />
+                <Legend />
+                <Line type="monotone" dataKey="Bharat" stroke="#FF6B35" strokeWidth={3} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="Tata" stroke="#4ECDC4" strokeWidth={3} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="JSW" stroke="#45B7D1" strokeWidth={3} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="SAIL" stroke="#96CEB4" strokeWidth={3} dot={{ r: 3 }} />
+              </LineChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </motion.div>
 
-      {/* Warranty Expiry Distribution */}
+      {/* Warranty Expiry Distribution (Area) */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <Card className="bg-gradient-card border-0 shadow-soft">
           <CardHeader>
@@ -41,61 +80,58 @@ export const SeniorInsights = () => {
             <CardDescription>Upcoming expiries segmented by month</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-6 gap-3 text-center">
-              {['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'].map((m, idx) => (
-                <div key={m} className="p-3 rounded-lg bg-muted/50">
-                  <div className="text-2xl font-bold text-primary">{[120, 180, 240, 160, 90, 60][idx]}</div>
-                  <div className="text-xs text-muted-foreground">{m}</div>
-                </div>
-              ))}
-            </div>
+            <ResponsiveContainer width="100%" height={260}>
+              <AreaChart data={[{ m: 'Aug', exp: 120 }, { m: 'Sep', exp: 180 }, { m: 'Oct', exp: 240 }, { m: 'Nov', exp: 160 }, { m: 'Dec', exp: 90 }, { m: 'Jan', exp: 60 }]}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="m" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 'var(--radius)' }} />
+                <Area type="monotone" dataKey="exp" stroke="#FF6B35" fill="#FF6B35" fillOpacity={0.15} name="Expiries" />
+              </AreaChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </motion.div>
 
-      {/* Zone-wise Defects */}
+      {/* Zone-wise Defects (Bar) */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <Card className="bg-gradient-card border-0 shadow-soft">
           <CardHeader>
-            <CardTitle className="text-xl">Zone-wise Defect Heat</CardTitle>
+            <CardTitle className="text-xl">Zone-wise Defects</CardTitle>
             <CardDescription>Relative defect counts by zone</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-5 gap-3">
-              {[
-                { zone: 'North', count: 67 },
-                { zone: 'South', count: 23 },
-                { zone: 'West', count: 56 },
-                { zone: 'East', count: 34 },
-                { zone: 'Central', count: 45 },
-              ].map((z) => (
-                <div key={z.zone} className="p-3 rounded-lg bg-warning/10 border border-warning/20 text-center">
-                  <div className="text-lg font-semibold text-warning">{z.count}</div>
-                  <div className="text-xs text-muted-foreground">{z.zone}</div>
-                </div>
-              ))}
-            </div>
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={zoneDefectsData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="zone" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 'var(--radius)' }} />
+                <Bar dataKey="defects" fill="#FF6B35" radius={[4,4,0,0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </motion.div>
 
-      {/* Inspection Trends */}
+      {/* Part Mix (Pie) */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <Card className="bg-gradient-card border-0 shadow-soft">
           <CardHeader>
-            <CardTitle className="text-xl">Inspection Trends Over Time</CardTitle>
-            <CardDescription>Inspections vs failures (last 6 months)</CardDescription>
+            <CardTitle className="text-xl">Part Mix</CardTitle>
+            <CardDescription>Distribution of part types in recent deliveries</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-6 gap-3 items-end h-40">
-              {[110, 130, 150, 140, 160, 175].map((v, i) => (
-                <div key={i} className="text-center">
-                  <div className="mx-auto w-8 bg-primary/20 rounded-t-sm" style={{ height: `${v / 2}px` }} />
-                  <div className="text-[10px] mt-1 text-muted-foreground">{['Jan','Feb','Mar','Apr','May','Jun'][i]}</div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 text-xs text-muted-foreground">Indicative visuals for demo only</div>
+            <ResponsiveContainer width="100%" height={280}>
+              <PieChart>
+                <Pie data={partMixData} cx="50%" cy="50%" dataKey="value" nameKey="name" innerRadius={60} outerRadius={100} label>
+                  {partMixData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 'var(--radius)' }} />
+              </PieChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </motion.div>

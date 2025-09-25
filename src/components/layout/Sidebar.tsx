@@ -44,6 +44,7 @@ const sectionIdMap: Record<string, string> = {
   "Depot Dashboard": "depot-dashboard",
   "Analytics": "analytics",
   "Vendors": "vendors",
+  "Vendor Analytics": "vendor-analytics",
   "Parts Management": "parts",
   "QR Generator": "qr",
   "Delivery Reports": "delivery-reports",
@@ -128,7 +129,7 @@ export const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
         {navigation.map((item) => {
           const isActive = item.name === activeItem;
           return (
@@ -180,14 +181,6 @@ export const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
           variant="ghost"
           size="sm"
           className="w-full text-white hover:bg-white/10 justify-start"
-        >
-          <Settings className="w-4 h-4" />
-          {!collapsed && <span className="ml-3">Settings</span>}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="w-full text-white hover:bg-white/10 justify-start mt-2"
         >
           <LogOut className="w-4 h-4" />
           {!collapsed && <span className="ml-3">Sign Out</span>}

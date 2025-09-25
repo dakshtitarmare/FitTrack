@@ -4,8 +4,11 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { KPICards } from "@/components/dashboard/KPICards";
 import { AnalyticsChart } from "@/components/dashboard/AnalyticsChart";
 import { QRGenerator } from "@/components/qr/QRGenerator";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PartsTable } from "@/components/parts/PartsTable";
 import { VendorAnalytics } from "@/components/vendor/VendorAnalytics";
+import { VendorSelfAnalytics } from "@/components/vendor/VendorSelfAnalytics";
+import { VendorInventory } from "@/components/vendor/VendorInventory";
 import { SeniorInsights } from "@/components/dashboard/SeniorInsights";
 import { DepotSupervisorDashboard } from "@/components/dashboard/DepotSupervisorDashboard";
 import { DeliveryReportSubmission } from "@/components/vendor/DeliveryReportSubmission";
@@ -113,12 +116,15 @@ export const Dashboard = () => {
               </div>
             </div>
             
-            <div className="text-white text-right">
-              <div className="text-3xl font-bold">2.4M+</div>
-              <div className="text-sm opacity-80">Parts Tracked</div>
-              <div className="text-2xl font-bold mt-2">99.2%</div>
-              <div className="text-sm opacity-80">System Uptime</div>
-            </div>
+            {/* Right hero stats hidden for vendor */}
+            {selectedRole !== 'vendor' && (
+              <div className="text-white text-right">
+                <div className="text-3xl font-bold">2.4M+</div>
+                <div className="text-sm opacity-80">Parts Tracked</div>
+                <div className="text-2xl font-bold mt-2">99.2%</div>
+                <div className="text-sm opacity-80">System Uptime</div>
+              </div>
+            )}
           </div>
         </motion.div>
 
@@ -135,21 +141,26 @@ export const Dashboard = () => {
           </div>
         </RoleBasedAccess>
 
-        {/* KPI Cards */}
-        <div id="kpis">
-          <KPICards />
-        </div>
+        {/* KPI Cards (hide for vendor as requested) */}
+        {selectedRole !== 'vendor' && (
+          <div id="kpis">
+            <KPICards />
+          </div>
+        )}
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8" id="analytics">
-          {/* Analytics Charts */}
-          <CanViewAnalytics>
-            <div className="xl:col-span-2">
-              <AnalyticsChart />
-            </div>
-          </CanViewAnalytics>
+          {/* Analytics Charts (vendor should not see analytics) */}
+          {selectedRole !== 'vendor' && (
+            <CanViewAnalytics>
+              <div className="xl:col-span-2">
+                <AnalyticsChart />
+              </div>
+            </CanViewAnalytics>
+          )}
 
           {/* Recent Activities Sidebar */}
+          {selectedRole !== 'vendor' && (
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -196,43 +207,61 @@ export const Dashboard = () => {
               </CardContent>
             </Card>
           </motion.div>
+          )}
         </div>
 
-        {/* Vendor Analytics */}
-        <CanManageVendors>
+        {/* Vendor Analytics for admin/managers; Vendor Self Analytics for vendor */}
+        {selectedRole === 'vendor' ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            id="vendors"
+            id="vendor-analytics"
           >
             <div className="mb-6">
-              <h2 className="text-2xl font-semibold mb-2">Vendor Performance Analytics</h2>
-              <p className="text-muted-foreground">
-                AI-powered insights and quality scoring for railway fitting suppliers
-              </p>
+              <h2 className="text-2xl font-semibold mb-2">Vendor Analytics</h2>
+              <p className="text-muted-foreground">Your company’s quality score and performance</p>
             </div>
-            <VendorAnalytics />
+            <VendorSelfAnalytics />
           </motion.div>
-        </CanManageVendors>
+        ) : (
+          <CanManageVendors>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              id="vendors"
+            >
+              <div className="mb-6">
+                <h2 className="text-2xl font-semibold mb-2">Vendor Performance Analytics</h2>
+                <p className="text-muted-foreground">
+                  AI-powered insights and quality scoring for railway fitting suppliers
+                </p>
+              </div>
+              <VendorAnalytics />
+            </motion.div>
+          </CanManageVendors>
+        )}
 
         {/* Parts Management */}
+        {/* Parts/Inventory - for vendor show VendorInventory with CSV import/export */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          id="parts"
+          id="inventory"
         >
           <div className="mb-6">
-            <h2 className="text-2xl font-semibold mb-2">Parts Management System</h2>
+            <h2 className="text-2xl font-semibold mb-2">{selectedRole === 'vendor' ? 'Vendor Inventory' : 'Parts Management System'}</h2>
             <p className="text-muted-foreground">
-              Comprehensive inventory tracking and lifecycle management for railway fittings
+              {selectedRole === 'vendor' ? 'Manage lots/batches, delivery status, and export/import CSV' : 'Comprehensive inventory tracking and lifecycle management for railway fittings'}
             </p>
           </div>
-          <PartsTable />
+          {selectedRole === 'vendor' ? <VendorInventory /> : <PartsTable />}
         </motion.div>
 
         {/* QR Generator Section */}
+        {selectedRole !== 'vendor' && (
         <CanGenerateQR>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -246,9 +275,22 @@ export const Dashboard = () => {
                 Generate unique QR codes for track fitting identification and lifecycle tracking
               </p>
             </div>
-            <QRGenerator />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-primary hover:opacity-90">
+                  <QrCode className="w-4 h-4 mr-2" /> Open QR Generator
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl">
+                <DialogHeader>
+                  <DialogTitle>QR Code Generator</DialogTitle>
+                </DialogHeader>
+                <QRGenerator />
+              </DialogContent>
+            </Dialog>
           </motion.div>
         </CanGenerateQR>
+        )}
 
         {/* Delivery Report Submission Section */}
         <CanSubmitDeliveryReport>
@@ -269,6 +311,7 @@ export const Dashboard = () => {
         </CanSubmitDeliveryReport>
 
         {/* TMS Integration Section */}
+        {selectedRole !== 'vendor' && (
         <CanIntegrateTMS>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -331,8 +374,10 @@ export const Dashboard = () => {
             </Card>
           </motion.div>
         </CanIntegrateTMS>
+        )}
 
         {/* Senior Insights (senior roles) */}
+        {selectedRole !== 'vendor' && (
         <RoleBasedAccess permission="canViewAnalytics" roles={["sse_pwi","udm_manager","admin"]}>
           <div id="senior-insights">
             <div className="mb-6">
@@ -342,6 +387,7 @@ export const Dashboard = () => {
             <SeniorInsights />
           </div>
         </RoleBasedAccess>
+        )}
       </div>
     </MainLayout>
   );

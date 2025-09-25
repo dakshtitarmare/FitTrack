@@ -290,7 +290,7 @@ export const rolePermissions: Record<UserRole, RolePermissions> = {
     canApproveInspections: false,
     canViewMaintenance: false,
     canScheduleMaintenance: false,
-    canViewReports: true,
+    canViewReports: false,
     canGenerateReports: false,
     canExportData: true, // Can export their own data
     canViewMIS: false,
@@ -376,6 +376,7 @@ export const getNavigationItems = (role: UserRole) => {
     { name: "Inspections", href: "#", icon: "Search", permission: "canViewInspections" },
     { name: "Analytics", href: "#", icon: "BarChart3", permission: "canViewAnalytics" },
     { name: "Vendors", href: "#", icon: "Users", permission: "canViewVendors" },
+    { name: "Vendor Analytics", href: "#", icon: "BarChart3", permission: "canViewParts" },
     { name: "Inventory", href: "#", icon: "Truck", permission: "canViewInventory" },
     { name: "Maintenance", href: "#", icon: "Cog", permission: "canViewMaintenance" },
     { name: "Safety", href: "#", icon: "Shield", permission: "canViewSafety" },
